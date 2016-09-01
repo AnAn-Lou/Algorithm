@@ -8,6 +8,14 @@
  * }
  */
 public class QID447 {
+
+    // otherwise report error in IDE
+    private class ArrayReader {
+        // get the number at index, return -1 if not exists.
+         public int get(int index){
+             return -1;
+         }
+    }
     /**
      * @param reader: An instance of ArrayReader.
      * @param target: An integer
