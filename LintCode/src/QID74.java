@@ -10,11 +10,11 @@ public class QID74 {
         int low = 0;
         int high = n;
         int mid;
-        
+
         while (low + 1 < high) {
             
             mid = low + (high - low) / 2;
-            
+
             if (SVNRepo.isBadVersion(mid)) {
                 high = mid;
             } else {
@@ -27,5 +27,7 @@ public class QID74 {
         } else {
             return high;
         }
+
+
     }
 }
