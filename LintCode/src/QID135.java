@@ -33,7 +33,7 @@ public class QID135 {
             if (target - candidates[i] < 0) {
                 break;
             }
-            if (pos > 0 && candidates[pos - 1] == candidates[pos]) {
+            if (i > 0 && candidates[i - 1] == candidates[i]) { // since we could use each number multiple times, we could just ignore duplicates
                 continue;
             }
             solu.add(candidates[i]);
