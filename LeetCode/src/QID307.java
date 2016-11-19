@@ -1,7 +1,23 @@
 // https://leetcode.com/problems/range-sum-query-mutable/
-// reference: https://discuss.leetcode.com/topic/31599/java-using-binary-indexed-tree-with-clear-explanation
 /*
 // BIT
+// reference: https://discuss.leetcode.com/topic/31599/java-using-binary-indexed-tree-with-clear-explanation
+//
+// nums.length = n
+// bit.length = n + 1: for the convenience of bit manipulation
+//
+// nums[] =                     0   1   2   3   4   5   6   7
+// bit[] idx                0   1   2   3   4   5   6   7   8
+// bit[] responsibility         1  1-2  3  1-4  5  5-6  7  1-8
+//
+// i & (-i): quickly get the last '1' bit of i
+// i + i & (-i): quickly move to its successor
+// i - i & (-i): quickly move to its predecessor
+//
+// build tree O(nlogn)
+// update O(logn)
+// rangeSum O(2logn)
+
 public class QID307 {
     private int[] bit;
     private int[] nums;
@@ -48,6 +64,7 @@ public class QID307 {
 */
 
 /* Segment Tree
+ * reference: https://discuss.leetcode.com/topic/29918/17-ms-java-solution-with-segment-tree
  */
 public class QID307 {
 
