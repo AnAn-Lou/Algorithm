@@ -1,5 +1,6 @@
 // https://leetcode.com/problems/range-sum-query-mutable/
 // reference: https://discuss.leetcode.com/topic/31599/java-using-binary-indexed-tree-with-clear-explanation
+/*
 // BIT
 public class QID307 {
     private int[] bit;
@@ -44,83 +45,98 @@ public class QID307 {
         return sum;
     }
 }
+*/
 
 /* Segment Tree
- * still buggy
+ */
 public class QID307 {
 
+    private class TreeNode{
+        int sum;
+        int start;
+        int end;
+        TreeNode left;
+        TreeNode right;
+        TreeNode(int start, int end){
+            this.start = start;
+            this.end = end;
+            sum = 0;
+            left = null;
+            right = null;
+        }
+    }
+
     TreeNode root;
-    int n;
-    int[] nums;
 
     public QID307(int[] nums) {
         if (nums.length > 0) {
-            n = nums.length;
-            this.nums = nums;
-            root = buildTree(nums, 0, n - 1);
+            root = buildTree(nums, 0, nums.length - 1);
         }
     }
 
     private TreeNode buildTree(int[] nums, int start, int end) {
+        TreeNode root = new TreeNode(start, end);
+
         if (start == end) {
-            return new TreeNode(start);
+            root.sum = nums[start];
+            return root;
         }
 
         int mid = start + (end - start) / 2;
 
-        TreeNode left = buildTree(nums, start, mid);
-        TreeNode right = buildTree(nums, mid + 1, end);
+        root.left = buildTree(nums, start, mid);
+        root.right = buildTree(nums, mid + 1, end);
 
-        TreeNode root = new TreeNode(left.val + right.val);
-        root.left = left;
-        root.right = right;
+        root.sum = root.left.sum + root.right.sum;
 
         return root;
     }
 
     void update(int pos, int val) {
 
-        update(pos, val - nums[pos], 0, n - 1, root);
+        update(pos, val, root);
     }
 
-    private void update(int pos, int diff, int start, int end, TreeNode node){
-        if (start == end) {
-            node.val += diff;
+    private void update(int pos, int val, TreeNode root){
+
+        if (root.start == root.end) {
+            root.sum = val;
             return;
         }
 
-        int mid = start + (end - start) / 2;
+        int mid = root.start + (root.end - root.start) / 2;
+
         if (pos <= mid) {
-            update(pos, diff, start, mid, node.left);
+            update(pos, val, root.left);
         } else {
-            update(pos, diff, mid + 1, end, node.right);
+            update(pos, val, root.right);
         }
+
+        root.sum = root.left.sum + root.right.sum;
     }
 
     public int sumRange(int l, int r) {
-        return sumRange(l, r, 0, n - 1, root);
+        return sumRange(l, r, root);
     }
 
-    private int sumRange(int l, int r, int start, int end, TreeNode node) {
-        if (l == start && r == end) {
-            return node.val;
+    private int sumRange(int l, int r, TreeNode root) {
+        if (l == root.start && r == root.end) {
+            return root.sum;
         }
 
-        int mid = start + (end - start) / 2;
+        int mid = root.start + (root.end - root.start) / 2;
 
-        int left = 0;
-        if (l <= mid) {
-            left = sumRange(l, mid, start, mid, node.left);
+        if (r <= mid) {
+            return sumRange(l, r, root.left);
+        } else if (l >= mid + 1) {
+            return sumRange(l, r, root.right);
+        } else {
+            return sumRange(l, mid, root.left) + sumRange(mid + 1, r, root.right);
         }
-        int right = 0;
-        if (right >= mid + 1) {
-            right = sumRange(mid + 1, r, mid + 1, end, node.right);
-        }
-
-        return left + right;
     }
 }
-*/
+
+
 
 /* Segment Tree
 public class QID307 {
