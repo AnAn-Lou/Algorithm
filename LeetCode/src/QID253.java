@@ -1,10 +1,40 @@
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
 
 // https://leetcode.com/problems/meeting-rooms-ii/
 public class QID253 {
+
+    // https://discuss.leetcode.com/topic/35253/explanation-of-super-easy-java-solution-beats-98-8-from-pinkfloyda
+    public int minMeetingRooms(Interval[] intervals) {
+        if (intervals == null || intervals.length <= 1) {
+            return intervals.length;
+        }
+
+        int[] starts = new int[intervals.length];
+        int[] ends = new int[intervals.length];
+
+        for (int i = 0; i < intervals.length; i++) {
+            starts[i] = intervals[i].start;
+            ends[i] = intervals[i].end;
+        }
+
+        Arrays.sort(starts);
+        Arrays.sort(ends);
+
+        int rooms = 0;
+        int idxEnd = 0; // indicates the release of a room
+        for (int i = 0; i < starts.length; i++) {
+            if (starts[i] < ends[idxEnd]) {
+                rooms ++;
+            } else {
+                idxEnd ++;
+            }
+        }
+
+        return rooms;
+    }
+
+    /*
+    // version 1: minheap
     public int minMeetingRooms(Interval[] intervals) {
 
         if (intervals == null || intervals.length <= 1) {
@@ -38,4 +68,5 @@ public class QID253 {
 
         return roomEndList.size();
     }
+    */
 }
